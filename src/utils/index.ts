@@ -15,21 +15,20 @@ export interface IState {
     winningCard: Boolean
 }
 
-export const randomize = (numberOfPlayers: number, arr:any[]): any[] => {
+export const randomize = (numberOfPlayers: number, arr:any): any[] => {
     const { results } = arr[arr.length -1];
     const shuffled = results.sort(function(){return .5 - Math.random()});
-    const result = createGenericGameKey(shuffled.slice(0,numberOfPlayers));
-    return result;
+    return createGenericGameKey(shuffled.slice(0,numberOfPlayers));
+
 }
 
 export const calculateWinner = (arr: any[]): string => {
     return arr.map(({ gameKey }) => {
         return (gameKey !== 'unknown') ? parseInt(gameKey.replace(',','')) : 0;
     }).sort((a, b) => b - a)[0].toString();
-
 };
 
-const createGenericGameKey = (cards:any[]): any[] => {
+export const createGenericGameKey = (cards:any[]): any[] => {
     return cards.map((card) => {
         if(card.mass || card.crew){
             return { ...card, gameKey: card.mass || card.crew}
@@ -81,7 +80,7 @@ export const calculateScore = (state:IGameScoreState[], winningPlayers: string[]
  
     const result = newState.map(({ score, player }) => {
         if(winningPlayers.indexOf(player) > -1) {
-            console.log(score + 1)
+        
             return {
                 player: player,
                 score: score + 1

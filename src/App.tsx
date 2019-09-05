@@ -5,7 +5,7 @@ import { createBrowserHistory } from "history";
 
 import store from './redux/store';
 import './App.css';
-import Game from './components/Game';
+import Game from './components/game/Game';
 import Results from './components/Results'
 
 const history = createBrowserHistory()

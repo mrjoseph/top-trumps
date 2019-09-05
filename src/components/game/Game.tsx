@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import SelectOption from './SelectOption';
+import SelectOption from '../SelectOption';
 import { Link } from 'react-router-dom';
-import {checkAllCardsVisibleState ,getWinningPlayer} from '../utils';
+import {checkAllCardsVisibleState ,getWinningPlayer} from '../../utils';
 import { Controls, PlayButton } from './game.styles';
-import ActivePlayers from './Players';
+import ActivePlayers from '../Players';
 
 interface IGame {
     pageNumber: number 
@@ -20,7 +20,7 @@ const INITIAL_STATE: IGame = {
     count: 0
 };
 
-interface iGame {
+interface IGameProps {
     location: Location
 }
 
@@ -28,7 +28,7 @@ interface Location {
     pathname: string
 }
 
-const Game = (props:iGame): JSX.Element => {
+const Game = (props:IGameProps): JSX.Element => {
     const { location:{ pathname} } = props;
     const gameType = pathname.replace('/','');
     const dispatch = useDispatch();
@@ -69,12 +69,9 @@ const Game = (props:iGame): JSX.Element => {
     }
     const { numberOfPlayers } = state;
     const { starwars, isFetched, error: {message}, activeCards, gameScore } = gameReducer;  
-    
-    console.log('gameScore', gameScore);
     useEffect(() => {
         const allCardsVisible = checkAllCardsVisibleState(activeCards);
         if(allCardsVisible) {
-            console.log('dispatch')
             dispatch({ 
                 type: 'GAME_SCORE',
                 payload: { 

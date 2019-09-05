@@ -1,10 +1,10 @@
 import React, { useEffect, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { randomize, calculateWinner , checkAllCardsVisibleState} from '../utils';
-import { Cards, CardsContainer, CardTitle, CardDetails } from './game.styles';
+import { Cards, CardsContainer, CardTitle, CardDetails } from './game/game.styles';
 import { ActiveCards } from '../redux/types/types';
 
-interface IActivePlayer {
+export interface IActivePlayer {
     numberOfPlayers: number
     starwars:any[]
 }
@@ -13,13 +13,11 @@ interface Itheme {
     color: string
 }
 
-
 const ActivePlayers = ({ numberOfPlayers, starwars }: IActivePlayer ): JSX.Element | null => {  
     const dispatch = useDispatch();
     const gameReducer = useSelector((state:any) => state.gameReducer)
     const { activeCards } = gameReducer;
     let theme: Itheme;
-
     useEffect(() => {
         const selected = randomize(numberOfPlayers, starwars);
         const winner = calculateWinner(selected)
@@ -39,18 +37,14 @@ const ActivePlayers = ({ numberOfPlayers, starwars }: IActivePlayer ): JSX.Eleme
             payload: cards
         })
     },[dispatch, numberOfPlayers, starwars]);
-
     const allCardsVisible = checkAllCardsVisibleState(activeCards);
-    
-    const onClick = (event: MouseEvent<HTMLButtonElement>, player: string, winningCard: Boolean):void => {
-        event.preventDefault(); 
-        
+    const onClick = (event: MouseEvent<HTMLButtonElement>, player: string):void => {
+        event.preventDefault();   
         dispatch({ 
             type: 'FLIP_CARDS',
             payload: { player }
         })
     }
-    
     return (
         <CardsContainer>
         {activeCards.map(({ player, card: { gameKey, name}, winningCard, visible }: ActiveCards ) => {
@@ -66,7 +60,7 @@ const ActivePlayers = ({ numberOfPlayers, starwars }: IActivePlayer ): JSX.Eleme
                         <div> {name} </div>
                         <div> {gameKey} </div>
                     </>}
-                    {!visible && <button onClick={(event) => onClick(event, player, winningCard)}>turn card over</button>}
+                    {!visible && <button onClick={(event) => onClick(event, player)}>turn card over</button>}
                     
                 </CardDetails>
                 </Cards>
