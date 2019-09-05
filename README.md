@@ -1,1 +1,1 @@
-## Startwars Top Trumps
+## Star Wars Top Trumps
