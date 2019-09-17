@@ -1,5 +1,4 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
-// import { routerReducer } from 'react-router-redux';
 import { gameReducer } from '../reducers/reducers';
 import createSagaMiddleware from 'redux-saga';
 import mySaga from '../saga/sagas';
@@ -7,13 +6,10 @@ import mySaga from '../saga/sagas';
 const sagaMiddleware = createSagaMiddleware()
 
 const routeReducer = combineReducers({
-    // router: routerReducer,
     gameReducer
   });
 
 export type AppState = ReturnType<typeof routeReducer>
-
-
 
 const middleware = [sagaMiddleware];
 
